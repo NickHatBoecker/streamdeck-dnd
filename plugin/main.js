@@ -36,7 +36,6 @@ function connectElgatoStreamDeckSocket (
 
             if (!updateInterval) {
                 updateInterval = setInterval(async () => {
-                    console.log('Trigger Interval')
                     setButtonState(context, await getCurrentDndState())
                 }, UPDATE_INTERVAL_IN_MS)
             }
@@ -51,7 +50,6 @@ function connectElgatoStreamDeckSocket (
 
             if (!updateInterval) {
                 updateInterval = setInterval(async () => {
-                    console.log('Trigger Interval')
                     setButtonState(context, await getCurrentDndState())
                 }, UPDATE_INTERVAL_IN_MS)
             }
@@ -60,15 +58,17 @@ function connectElgatoStreamDeckSocket (
     }
 }
 
-function setImage (context, isDndOn) {
+const setImage = async (context, isDndOn) => {
     const imageOn = 'https://nick-hat-boecker.de/files/streamdeck_dnd_on.png'
     const imageOff = 'https://nick-hat-boecker.de/files/streamdeck_dnd_off.png'
+
+    const image = await getBase64Image(isDndOn ? imageOn : imageOff)
 
     const json = {
         event: 'setImage',
         context,
         payload: {
-            image: isDndOn ? imageOn : imageOff,
+            image,
         },
     }
 
@@ -88,14 +88,11 @@ function setTitle (context, isDndOn) {
 function setButtonState (context, isDndOn) {
     setTitle(context, isDndOn)
     setImage(context, isDndOn)
-
-    console.log('Set Button state::', isDndOn)
 }
 
 const getCurrentDndState = async () => {
     const dndState = await fetch(`${API_BASE_URL}/get-dnd-state`).then(response => response.text())
     const isDndOn = dndState.trim().toLowerCase() === 'do not disturb'
-    console.log('getCurrentDndState:: ', dndState.trim(), isDndOn)
 
     return isDndOn
 }
@@ -104,9 +101,32 @@ async function toggleDnd () {
     const isDndOn = await getCurrentDndState()
     const url = `${API_BASE_URL}/toggle-dnd-state?activateDnd=${!isDndOn}`
 
-    console.log('toggleDnd1:: ', isDndOn ? 'Toggling off...' : 'Toggling on...', url)
-
     const response = await fetch(url)
         .then(response => response.text())
-    console.log('toggleDnd:: ', response)
+}
+
+function getBase64Image (url) {
+    return new Promise(
+        function (resolve, reject) {
+            try {
+                const img = new Image()
+
+                img.setAttribute('crossOrigin', 'anonymous')
+                img.src = url
+                img.onload = () => {
+                    const canvas = document.createElement('canvas')
+                    canvas.width = img.width
+                    canvas.height = img.height
+                    canvas.getContext('2d').drawImage(img, 0, 0)
+
+                    const dataURL = canvas.toDataURL('image/png')
+
+                    resolve(dataURL)
+                }
+            } catch (e) {
+                console.log(e)
+                reject()
+            }
+        }
+    )
 }
