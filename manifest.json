@@ -1,0 +1,40 @@
+{
+  "Actions": [
+    {
+      "Icon": "resources/actionIcon",
+      "Name": "Toggle Do Not Disturb",
+      "States": [
+        {
+          "Image": "resources/actionDefaultImage",
+          "TitleAlignment": "bottom",
+          "FontSize": "10"
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "Tooltip": "Toggle Do Not Disturb focus mode on Mac OS",
+      "UUID": "de.nickhatboecker.dnd.action"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Nick Böcker",
+  "CodePath": "plugin/main.html",
+  "Description": "Toggle Do Not Disturb focus mode on Mac OS.",
+  "Name": "Toggle Do Not Disturb",
+  "Icon": "resources/pluginIcon",
+  "PropertyInspectorPath": "pi/main_pi.html",
+  "URL": "https://github.com/NickHatBoecker",
+  "Version": "2.1.2",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}
