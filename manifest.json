@@ -12,7 +12,7 @@
       ],
       "SupportedInMultiActions": true,
       "Tooltip": "Toggle 'Do Not Disturb' focus mode on Mac OS",
-      "UUID": "de.nickhatboecker.dnd.action"
+      "UUID": "de.nickhatboecker.dontdisturb.action"
     }
   ],
   "SDKVersion": 2,
@@ -23,7 +23,7 @@
   "Icon": "resources/pluginIcon",
   "PropertyInspectorPath": "pi/main_pi.html",
   "URL": "https://github.com/NickHatBoecker",
-  "Version": "2.1.2",
+  "Version": "2.1.9",
   "OS": [
     {
       "Platform": "mac",

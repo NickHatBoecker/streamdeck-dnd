@@ -71,6 +71,7 @@ const setImage = async (context, isDndOn) => {
             image,
         },
     }
+    console.log('setImage', json)
 
     websocket.send(JSON.stringify(json))
 }
@@ -80,7 +81,8 @@ function setTitle (context, isDndOn) {
         event: 'setTitle',
         context,
         payload: {
-            title: isDndOn ? 'Turn off' : 'Turn on',
+            // title: isDndOn ? 'Turn off' : 'Turn on',
+            title: '',
         },
     }))
 }
@@ -98,11 +100,12 @@ const getCurrentDndState = async () => {
 }
 
 async function toggleDnd () {
-    const isDndOn = await getCurrentDndState()
-    const url = `${API_BASE_URL}/toggle-dnd-state?activateDnd=${!isDndOn}`
+    console.log('TOGGLE DND!')
+    const url = `${API_BASE_URL}/toggle-dnd-state`
 
     const response = await fetch(url)
         .then(response => response.text())
+    console.log('RESPONSE', response)
 }
 
 function getBase64Image (url) {
